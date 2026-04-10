@@ -5,16 +5,18 @@ EPSILON = 1e-6
 
 TASK_EVENT_IDS = {
     "login_attack_detection": 4625,
+    "normal_activity_handling": 4624,
     "privilege_escalation_detection": 4672,
     "credential_access_detection": 4688,
     "data_exfiltration_detection": 5156,
 }
 
 TASK_WEIGHTS = {
-    "login_attack_detection": 0.20,
-    "privilege_escalation_detection": 0.30,
+    "login_attack_detection": 0.18,
+    "normal_activity_handling": 0.12,
+    "privilege_escalation_detection": 0.25,
     "credential_access_detection": 0.20,
-    "data_exfiltration_detection": 0.30,
+    "data_exfiltration_detection": 0.25,
 }
 
 
@@ -101,6 +103,11 @@ def grade_privilege_escalation_detection(events=None):
     return grade("privilege_escalation_detection", events)
 
 
+def grade_normal_activity_handling(events=None):
+    """Easy: Correctly handle benign normal-activity events (Windows Event ID 4624)."""
+    return grade("normal_activity_handling", events)
+
+
 def grade_credential_access_detection(events=None):
     """Medium: Detect credential access via process injection (Windows Event ID 4688)."""
     return grade("credential_access_detection", events)
@@ -113,6 +120,7 @@ def grade_data_exfiltration_detection(events=None):
 
 TASK_GRADERS = {
     "login_attack_detection": grade_login_attack_detection,
+    "normal_activity_handling": grade_normal_activity_handling,
     "privilege_escalation_detection": grade_privilege_escalation_detection,
     "credential_access_detection": grade_credential_access_detection,
     "data_exfiltration_detection": grade_data_exfiltration_detection,

@@ -100,8 +100,8 @@ with open("openenv.yaml", "r", encoding="utf-8") as f:
     cfg = yaml.safe_load(f) or {}
 
 task_items = cfg.get("tasks") or []
-if not isinstance(task_items, list) or len(task_items) < 4:
-  raise SystemExit("[FAIL] openenv.yaml must define at least 4 tasks")
+if not isinstance(task_items, list) or len(task_items) < 5:
+  raise SystemExit("[FAIL] openenv.yaml must define at least 5 tasks")
 
 graded = 0
 for item in task_items:
@@ -124,15 +124,15 @@ for item in task_items:
         if not (0.0 < sv < 1.0):
             raise SystemExit(f"[FAIL] Task score out of range in openenv.yaml: {sv}")
 
-if graded < 4:
-  raise SystemExit("[FAIL] Fewer than 4 tasks with graders")
+if graded < 5:
+  raise SystemExit("[FAIL] Fewer than 5 tasks with graders")
 
-if len(TASKS) < 4:
-  raise SystemExit("[FAIL] TASKS must contain at least 4 entries")
+if len(TASKS) < 5:
+  raise SystemExit("[FAIL] TASKS must contain at least 5 entries")
 
 callable_graders = sum(1 for cfg in TASKS.values() if callable(cfg.get("grader")))
-if callable_graders < 4:
-  raise SystemExit("[FAIL] Fewer than 4 callable graders in TASKS")
+if callable_graders < 5:
+  raise SystemExit("[FAIL] Fewer than 5 callable graders in TASKS")
 
 for name, cfg in TASKS.items():
     val = float(cfg["grader"]([]))

@@ -26,12 +26,12 @@ def validate_openenv_metadata(path="openenv.yaml"):
         if score is not None:
             assert 0.0 < float(score) < 1.0
 
-    assert graded >= 4
+    assert graded >= 5
 
 
 def validate_graders():
-    assert len(TASKS) >= 4
-    assert sum(1 for cfg in TASKS.values() if callable(cfg.get("grader"))) >= 4
+    assert len(TASKS) >= 5
+    assert sum(1 for cfg in TASKS.values() if callable(cfg.get("grader"))) >= 5
 
     edge_cases = [
         None,

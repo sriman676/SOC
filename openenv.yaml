@@ -1,0 +1,40 @@
+name: soc-agentlab
+version: 1.1
+description: >
+  SOC Alert Triage environment. An AI agent observes Windows security events
+  and must classify each as investigate / ignore / contain.
+  Four tasks span easy-to-hard detection scenarios mapped to MITRE ATT&CK.
+
+actions:
+  - investigate
+  - ignore
+  - contain
+
+tasks:
+  - name: login_attack_detection
+    description: "Easy: Detect brute-force login attacks (Event ID 4625)"
+    difficulty: easy
+    grader: graders.grade_login_attack_detection
+    weight: 0.20
+    score: 0.5
+
+  - name: privilege_escalation_detection
+    description: "Medium: Detect privilege escalation (Event ID 4672)"
+    difficulty: medium
+    grader: graders.grade_privilege_escalation_detection
+    weight: 0.30
+    score: 0.5
+
+  - name: credential_access_detection
+    description: "Medium: Detect credential access via process injection (Event ID 4688)"
+    difficulty: medium
+    grader: graders.grade_credential_access_detection
+    weight: 0.20
+    score: 0.5
+
+  - name: data_exfiltration_detection
+    description: "Hard: Detect data exfiltration over network (Event ID 5156)"
+    difficulty: hard
+    grader: graders.grade_data_exfiltration_detection
+    weight: 0.30
+    score: 0.5

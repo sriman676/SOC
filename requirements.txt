@@ -1,0 +1,10 @@
+
+gradio
+pandas
+numpy
+pydantic
+fastapi
+uvicorn
+plotly
+networkx
+openai

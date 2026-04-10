@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "soc-agentlab"
+version = "0.1.0"
+description = "OpenEnv-style environment for evaluating AI agents performing SOC alert triage"
+requires-python = ">=3.10"
+dependencies = [
+	"openenv-core>=0.2.0",
+	"openai",
+	"fastapi",
+	"pydantic",
+	"uvicorn",
+	"gradio",
+	"pandas",
+	"numpy",
+	"plotly",
+	"networkx",
+]
+
+[project.scripts]
+server = "server.app:main"
+
+[tool.setuptools.packages.find]
+include = ["agents*", "env*", "server*"]
+
+[tool.setuptools]
+py-modules = ["app", "benchmark", "graders", "inference", "tasks", "validate_env", "visual_app"]

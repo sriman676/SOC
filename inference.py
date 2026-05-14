@@ -1,5 +1,7 @@
 import os
 import sys
+import gradio as gr
+from visual_app import build_demo
 from typing import List, Literal, Optional
 
 from fastapi import FastAPI, HTTPException, Request, Response
@@ -186,29 +188,6 @@ def _graded_rollout_events():
 
 # ── Core OpenEnv routes ────────────────────────────────────────────────────────
 
-@app.get("/")
-def root():
-    return {
-        "name": "soc-agentlab",
-        "status": "ok",
-        "actions": ["investigate", "ignore", "contain"],
-        "routes": [
-            "GET  /tasks",
-            "POST /reset",
-            "GET  /reset",
-            "POST /step",
-            "GET  /state",
-            "POST /grade",
-            "GET  /grade",
-            "POST /grade/{task_name}",
-            "GET  /grade/{task_name}",
-        ],
-    }
-
-
-@app.post("/")
-def root_reset(payload: Optional[ResetRequest] = None):
-    return _safe_reset(payload)
 
 
 @app.post("/reset")
@@ -310,27 +289,7 @@ def grade_task_post(task_name: str, payload: Optional[GradeRequest] = None):
     return {"task": task_name, "score": float(score), "grader": f"graders.grade_{task_name}"}
 
 
-# ── Catch-all compatibility routes ────────────────────────────────────────────
-
-@app.api_route("/{full_path:path}", methods=["OPTIONS"])
-def options_compat(full_path: str):
-    _ = full_path
-    return Response(status_code=200)
-
-
-@app.api_route(
-    "/{full_path:path}",
-    methods=["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "TRACE"],
-)
-def method_compat(full_path: str):
-    return {
-        "name": "soc-agentlab",
-        "status": "ok",
-        "path": f"/{full_path}",
-        "routes": ["GET /tasks", "POST /reset", "POST /step", "GET /state",
-                   "GET /grade", "POST /grade", "GET /grade/{task_name}", "POST /grade/{task_name}"],
-    }
-
+app = gr.mount_gradio_app(app, build_demo(), path="/")
 
 # ── Local rollout (for `python inference.py`) ─────────────────────────────────
 
